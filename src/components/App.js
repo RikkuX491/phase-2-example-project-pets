@@ -13,8 +13,16 @@ function App() {
   }, [])
 
   function addPet(newPet){
-    const newPetWithID = {id: pets[pets.length - 1].id + 1, ...newPet}
-    setPets([...pets, newPetWithID])
+    fetch('http://localhost:7000/pets', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newPet)
+    })
+    .then(response => response.json())
+    .then(newPetData => setPets(pets => [...pets, newPetData]))
   }
 
   return (
